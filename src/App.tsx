@@ -1,27 +1,53 @@
-import Tree from './components/tree';
+import Datagrid, { EnhancedColumnDef } from "./components/table";
+import { useFetching } from "./hooks/use-fetching";
 
-const { TreeContainer, TreeItem } = Tree;
+const data = [
+  {
+    name: "Frank Nguyen",
+    age: 25,
+    height: 174,
+  },
+  {
+    name: "Logan Nguyen",
+    age: 25,
+    height: 169,
+  },
+];
+
+const columns: EnhancedColumnDef<(typeof data)[number]>[] = [
+  {
+    id: "basic-info",
+    header: "Basic Information",
+    enableGrouping: true,
+
+    columns: [
+      {
+        id: "name",
+        header: "Name",
+        accessorKey: "name",
+      },
+      {
+        id: "age",
+        header: "Age",
+        accessorKey: "age",
+        enableRowSpan: true,
+      },
+    ],
+  },
+  {
+    id: "name-height",
+    header: "Name & Height",
+    accessorFn: (row) => `${row.name}-${row.height}`,
+    cell: (props) => <strong>{props.getValue<string>()}</strong>,
+  },
+];
 
 function App() {
   return (
-    <TreeContainer>
-      <TreeItem treeId={'1'} label={'Test 1'}>
-        <TreeItem treeId={'1-1'} label={'Test 1-1'}>
-          <TreeItem treeId={'1-1-1'} label={'Test 1-1-1'}>
-            <TreeItem treeId={'1-1-1-1'} label={'Test 1-1-1-1'}></TreeItem>
-          </TreeItem>
-        </TreeItem>
-        <TreeItem treeId={'1-2'} label={'Test 1-2'}></TreeItem>
-      </TreeItem>
-      <TreeItem treeId={'2'} label={'Test 2'}>
-        <TreeItem treeId={'2-1'} label={'Test 2-1'}></TreeItem>
-      </TreeItem>
-      <TreeItem treeId={'3'} label={'Document'}>
-        <TreeItem treeId={'3-1'} label={'folder 1'}>
-          <TreeItem treeId={'3-1-1'} label={'folder 2'}></TreeItem>
-        </TreeItem>
-      </TreeItem>
-    </TreeContainer>
+    <div className="App">
+      <h1>Personal Components</h1>
+      <Datagrid data={data} columns={columns} enableTableRowSpan />
+    </div>
   );
 }
 

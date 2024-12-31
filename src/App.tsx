@@ -1,5 +1,4 @@
 import Datagrid, { EnhancedColumnDef } from "./components/table";
-import { useFetching } from "./hooks/use-fetching";
 
 const data = [
   {
@@ -45,7 +44,7 @@ const columns: EnhancedColumnDef<(typeof data)[number]>[] = [
 function App() {
   return (
     <div className="App">
-      <h1>Personal Components</h1>
+      <h1>FNg - Components</h1>
       <Datagrid data={data} columns={columns} enableTableRowSpan />
     </div>
   );

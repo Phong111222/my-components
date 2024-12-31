@@ -10,6 +10,9 @@ import { EnhancedColumnDef } from "./type";
 import { getSpannedRowModel } from "./features/row-span";
 import { RowSpanOption } from "./hooks/type";
 import { getFlattedColumns } from "./utils";
+import Cell from "./components/cell";
+import Header from "./components/header";
+import Row from "./components/row";
 
 type TableProps<TData extends RowData> = Pick<
   TableOptions<TData>,
@@ -44,42 +47,34 @@ const Datagrid = <TData extends RowData>({
     <table>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
+          <Row key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
               return (
-                <th
-                  key={header.id}
-                  colSpan={header.colSpan}
-                  className="border px-8 py-4 text-[16px]"
-                >
+                <Header key={header.id} colSpan={header.colSpan}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
                         header.getContext(),
                       )}
-                </th>
+                </Header>
               );
             })}
-          </tr>
+          </Row>
         ))}
       </thead>
       <tbody>
         {table.getRowModel().rows.map((row) => {
           return (
-            <tr key={row.id}>
+            <Row key={row.id}>
               {row.getVisibleCells().map((cell) => {
                 return cell.rowSpan ? (
-                  <td
-                    key={cell.id}
-                    rowSpan={cell.rowSpan}
-                    className="border text-base px-8 py-4"
-                  >
+                  <Cell key={cell.id} rowSpan={cell.rowSpan}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+                  </Cell>
                 ) : null;
               })}
-            </tr>
+            </Row>
           );
         })}
       </tbody>

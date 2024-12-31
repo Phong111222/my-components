@@ -1,9 +1,19 @@
-import { HTMLProps, FC, PropsWithRef } from "react";
+import { HTMLProps, PropsWithRef } from "react";
 import { useTailwindMerge } from "../../../../hooks/use-tailwind-merge";
 
-type CellProps = PropsWithRef<HTMLProps<HTMLTableCellElement>>;
+import { Cell as TanstackCell } from "@tanstack/react-table";
+type CellProps<TData> = PropsWithRef<
+  HTMLProps<HTMLTableCellElement> & {
+    cell: TanstackCell<TData, unknown>;
+  }
+>;
 
-const Cell: FC<CellProps> = ({ ref, className, children, ...rest }) => {
+const Cell = <TData,>({
+  ref,
+  className,
+  children,
+  ...rest
+}: CellProps<TData>) => {
   const mergedClassNames = useTailwindMerge(
     "border text-base px-8 py-4",
     className || "",

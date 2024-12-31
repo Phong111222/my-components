@@ -47,10 +47,14 @@ const Datagrid = <TData extends RowData>({
     <table>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <Row key={headerGroup.id}>
+          <Row key={headerGroup.id} row={headerGroup}>
             {headerGroup.headers.map((header) => {
               return (
-                <Header key={header.id} colSpan={header.colSpan}>
+                <Header
+                  key={header.id}
+                  colSpan={header.colSpan}
+                  header={header}
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -66,10 +70,10 @@ const Datagrid = <TData extends RowData>({
       <tbody>
         {table.getRowModel().rows.map((row) => {
           return (
-            <Row key={row.id}>
+            <Row key={row.id} row={row}>
               {row.getVisibleCells().map((cell) => {
                 return cell.rowSpan ? (
-                  <Cell key={cell.id} rowSpan={cell.rowSpan}>
+                  <Cell key={cell.id} rowSpan={cell.rowSpan} cell={cell}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Cell>
                 ) : null;

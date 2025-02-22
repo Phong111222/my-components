@@ -1,54 +1,31 @@
-import Datagrid, { EnhancedColumnDef } from "./components/table";
-import { useFetching } from "./hooks/use-fetching";
+import { useMultiStepForm } from "./components/multi-step-form";
 
-const data = [
-  {
-    name: "Frank Nguyen",
-    age: 25,
-    height: 174,
-  },
-  {
-    name: "Logan Nguyen",
-    age: 25,
-    height: 169,
-  },
-];
-
-const columns: EnhancedColumnDef<(typeof data)[number]>[] = [
-  {
-    id: "basic-info",
-    header: "Basic Information",
-    enableGrouping: true,
-
-    columns: [
-      {
-        id: "name",
-        header: "Name",
-        accessorKey: "name",
-      },
-      {
-        id: "age",
-        header: "Age",
-        accessorKey: "age",
-        enableRowSpan: true,
-      },
-    ],
-  },
-  {
-    id: "name-height",
-    header: "Name & Height",
-    accessorFn: (row) => `${row.name}-${row.height}`,
-    cell: (props) => <strong>{props.getValue<string>()}</strong>,
-  },
-];
+type FormState = {
+  basicInfo: {
+    name: string;
+  };
+  additionalInfo: {
+    phone: string;
+    address: string;
+  };
+};
 
 function App() {
-  return (
-    <div className="App">
-      <h1>Personal Components</h1>
-      <Datagrid data={data} columns={columns} enableTableRowSpan />
-    </div>
-  );
+  const { formState, handleSetFormState, handleGoToStep, currentStep } =
+    useMultiStepForm<FormState>({
+      defaultValue: {
+        basicInfo: {
+          name: "Frank",
+        },
+        additionalInfo: {
+          phone: "123",
+          address: "adsd",
+        },
+      },
+      defaultStep: "basicInfo",
+    });
+
+  return <div className="App"></div>;
 }
 
 export default App;
